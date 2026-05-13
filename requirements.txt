@@ -1,0 +1,48 @@
+# AI-Powered Tailored Resume Builder - Dependencies
+# Manage with: uv pip install -r requirements.txt
+
+# Core LLM & API Client
+google-generativeai>=0.3.0
+
+# Data Validation & Models
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# PDF Processing & Parsing
+pdfplumber==0.11.9
+
+# GitHub Integration
+PyGithub==2.1.1
+
+# HTTP Requests
+requests==2.31.0
+
+# Template Rendering for LaTeX
+Jinja2==3.1.2
+
+# Web UI Framework
+streamlit==1.30.0
+
+# Async/Concurrent Operations
+aiohttp==3.9.0
+
+# Caching & Session Storage
+redis==5.0.0
+
+# Environment Variable Management
+python-dotenv==1.0.0
+
+# Logging & Debugging
+loguru==0.7.2
+
+# Retry Logic & Rate Limiting
+tenacity==8.2.3
+
+# Development & Testing Dependencies (Optional)
+# Uncomment to install dev tools
+# pytest==7.4.0
+# pytest-asyncio==0.21.0
+# pytest-cov==4.1.0
+# black==23.7.0
+# ruff==0.1.0
+# mypy==1.5.0

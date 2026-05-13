@@ -1,0 +1,32 @@
+# Virtual environments
+myev/
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+
+
+# Environment
+.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project outputs
+output/
+cache/
+*.pdf
+*.tex
+!src/services/templates/*.tex.j2
+
+# Logs
+*.log
