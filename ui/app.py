@@ -128,7 +128,23 @@ if st.button("🚀 Generate Tailored Resume", type="primary", use_container_widt
 
             except Exception as e:
                 status.update(label="❌ Generation failed", state="error")
-                st.error(f"Error: {str(e)}")
+                
+                # Show detailed error information
+                from pydantic import ValidationError
+                if isinstance(e, ValidationError):
+                    st.error("❌ **Validation Error:**")
+                    for error in e.errors():
+                        field_path = " → ".join(str(x) for x in error["loc"])
+                        error_type = error["type"]
+                        error_msg = error["msg"]
+                        st.error(f"**{field_path}**: {error_type}\n{error_msg}")
+                else:
+                    # For non-validation errors, show full traceback
+                    st.error(f"❌ **Error**: {str(e)}")
+                    with st.expander("📋 Full Error Details"):
+                        import traceback
+                        st.code(traceback.format_exc(), language="text")
+                
                 logger.exception("Pipeline failed in UI")
                 st.stop()
 

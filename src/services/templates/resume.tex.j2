@@ -59,8 +59,9 @@
 \begin{document}
 
 % ─── HEADER ──────────────────────────────────────
+{% if resume.contact_info %}
 \begin{center}
-    \textbf{\Huge\scshape {{ resume.contact_info.full_name | latex_escape }}} \\ \vspace{1pt}
+    \textbf{\Huge\scshape {{ resume.contact_info.full_name | default("") | latex_escape }}} \\ \vspace{1pt}
     \small
     {% if resume.contact_info.phone %}{{ resume.contact_info.phone | latex_escape }} $|${% endif %}
     {% if resume.contact_info.email %}\href{mailto:{{ resume.contact_info.email }}}{\underline{ {{- resume.contact_info.email -}} }} $|${% endif %}
@@ -68,6 +69,7 @@
     {% if resume.contact_info.github_url %}\href{ {{- resume.contact_info.github_url -}} }{\underline{GitHub}}{% endif %}
     {% if resume.contact_info.location %} $|$ {{ resume.contact_info.location | latex_escape }}{% endif %}
 \end{center}
+{% endif %}
 
 {% if resume.professional_summary %}
 % ─── SUMMARY ─────────────────────────────────────
@@ -81,7 +83,7 @@
 \begin{itemize}[leftmargin=0.15in, label={}]
     \small{\item{
     {% for cat in resume.skill_categories %}
-        \textbf{ {{- cat.category | latex_escape -}} }{: {{ cat.skills | join(', ') | latex_escape }} } \\
+        \textbf{ {{- cat.category | latex_escape -}} }{: {{ cat.skills | default([]) | join(', ') | latex_escape }} } \\
     {% endfor %}
     }}
 \end{itemize}
@@ -93,8 +95,8 @@
 \resumeSubHeadingListStart
 {% for exp in resume.optimized_work_experience %}
     \resumeSubheading
-        { {{- exp.role | latex_escape -}} }{ {{- exp.start_date | default('') -}} -- {{ exp.end_date | default('Present') -}} }
-        { {{- exp.company | latex_escape -}} }{ {{- exp.location | default('') | latex_escape -}} }
+        { {{- exp.role | default('') | latex_escape -}} }{ {{- exp.start_date | default('') -}} -- {{ exp.end_date | default('Present') -}} }
+        { {{- exp.company | default('') | latex_escape -}} }{ {{- exp.location | default('') | latex_escape -}} }
     {% if exp.bullet_points %}
     \resumeItemListStart
     {% for bullet in exp.bullet_points %}
@@ -112,7 +114,7 @@
 \resumeSubHeadingListStart
 {% for proj in resume.optimized_projects %}
     \resumeProjectHeading
-        {\textbf{ {{- proj.project_name | latex_escape -}} } $|$ \emph{\small {{ proj.technologies_used | join(', ') | latex_escape }}} }{}
+        {\textbf{ {{- proj.project_name | default('') | latex_escape -}} } $|$ \emph{\small {{ proj.technologies_used | default([]) | join(', ') | latex_escape }}} }{}
     {% if proj.bullet_points %}
     \resumeItemListStart
     {% for bullet in proj.bullet_points %}
@@ -130,8 +132,8 @@
 \resumeSubHeadingListStart
 {% for edu in resume.education %}
     \resumeSubheading
-        { {{- edu.institution | latex_escape -}} }{ {{- edu.start_date | default('') -}} -- {{ edu.end_date | default('') -}} }
-        { {{- edu.degree | latex_escape -}} {% if edu.field_of_study %} in {{ edu.field_of_study | latex_escape }}{% endif %} }{ {{- edu.grade | default('') | latex_escape -}} }
+        { {{- edu.institution | default('') | latex_escape -}} }{ {{- edu.start_date | default('') -}} -- {{ edu.end_date | default('') -}} }
+        { {{- edu.degree | default('') | latex_escape -}} {% if edu.field_of_study %} in {{ edu.field_of_study | latex_escape }}{% endif %} }{ {{- edu.grade | default('') | latex_escape -}} }
 {% endfor %}
 \resumeSubHeadingListEnd
 {% endif %}
