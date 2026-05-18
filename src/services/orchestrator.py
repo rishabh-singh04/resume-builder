@@ -80,7 +80,9 @@ class ResumeOrchestrator:
         # ── Stage 1: Parse Inputs ────────────────────────
         with timed_block("Stage 1: Input Parsing"):
             jd = self.jd_parser.parse(jd_text)
+            logger.info("JD parsed")
             resume = self._parse_resume(resume_pdf_path, resume_text)
+            logger.info("Resume parsed")
 
         # ── Stage 2: Parallel Research ───────────────────
         with timed_block("Stage 2: Research (parallel)"):
@@ -90,27 +92,33 @@ class ResumeOrchestrator:
 
         # ── Stage 3: ATS Scoring ─────────────────────────
         with timed_block("Stage 3: ATS Scoring"):
+            logger.info("ATS started")
             ats_report = self.ats_scorer.score_resume(
                 job_description=jd,
                 resume=resume,
                 github_projects=github_projects,
             )
             logger.info(f"Initial ATS Score: {ats_report.ats_score}")
+            logger.info("ATS finished")
 
         # ── Stage 4: Resume Optimization ─────────────────
         with timed_block("Stage 4: Resume Optimization"):
+            logger.info("Optimizer started")
             tailored = self.resume_optimizer.optimize_resume(
                 job_description=jd,
                 parsed_resume=resume,
                 ats_report=ats_report,
                 github_projects=github_projects,
             )
+            logger.info("Optimizer finished")
 
         # ── Stage 5: LaTeX Generation ────────────────────
         tex_path = None
         with timed_block("Stage 5: LaTeX Generation"):
+            logger.info("LaTeX started")
             try:
                 tex_path = self.latex_generator.generate_tex(tailored)
+                logger.info("LaTeX finished")
             except Exception:
                 logger.exception("LaTeX generation failed — continuing without TEX output")
 

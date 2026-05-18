@@ -11,6 +11,7 @@ from models.github import GitHubMetrics, GitHubProject
 from services.prompts.github_analyzer import GITHUB_ANALYZER_PROMPT
 from services.embeddings import get_embedding_service
 from utils.decorators import llm_retry, log_operation
+from utils.safe import safe_list, safe_str
 
 
 class GitHubAnalyzerService:
@@ -77,7 +78,7 @@ class GitHubAnalyzerService:
         for repo in repos:
             readme = self._get_readme(repo)
             readmes[repo.name] = readme
-            text_blob = f"{repo.name} {repo.description or ''} {' '.join(repo.get_topics())} {readme[:3000]}"
+            text_blob = f"{safe_str(repo.name)} {safe_str(repo.description)} {' '.join(safe_list(repo.get_topics()))} {safe_str(readme)[:3000]}"
             repo_texts.append(text_blob)
 
         ranked = self.embeddings.rank_by_similarity(
@@ -121,11 +122,11 @@ class GitHubAnalyzerService:
 
         prompt = GITHUB_ANALYZER_PROMPT.format(
             jd=jd_text,
-            repo_name=repo.name,
-            description=repo.description or "",
-            languages=repo.language or "",
-            topics=", ".join(repo.get_topics()),
-            readme=repo_data["readme"],
+            repo_name=safe_str(repo.name),
+            description=safe_str(repo.description),
+            languages=safe_str(repo.language),
+            topics=", ".join(safe_list(repo.get_topics())),
+            readme=safe_str(repo_data["readme"]),
             embedding_score=repo_data["score"],
         )
 

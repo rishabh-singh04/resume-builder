@@ -22,6 +22,7 @@ from loguru import logger
 
 from core.config import settings
 from core.gemini_client import get_gemini_client
+
 from models.ats import ATSReport
 from models.github import GitHubProject
 from models.jd import JobDescription
@@ -86,6 +87,13 @@ class ResumeOptimizerService:
 
             optimized_resume.final_ats_score = rescored.ats_score
             optimized_resume.optimization_metadata.ats_score_after = rescored.ats_score
+
+            delta = rescored.ats_score - current_report.ats_score
+            if delta < 2:
+                logger.warning(
+                    "Optimization score improvement stalled; breaking early after delta < 2."
+                )
+                break
 
             if rescored.ats_score >= settings.ATS_THRESHOLD:
                 logger.success(f"ATS threshold reached: {rescored.ats_score}")
@@ -161,9 +169,15 @@ class ResumeOptimizerService:
         original: ParsedResume, optimized: TailoredResume
     ) -> List[OptimizedBullet]:
         """Track bullet point changes between original and optimized resume."""
-        original_bullets = [b for exp in original.work_experience for b in exp.bullet_points]
+        original_bullets = [
+            b
+            for exp in (original.work_experience or [])
+            for b in (exp.bullet_points or [])
+        ]
         optimized_bullets = [
-            b for exp in optimized.optimized_work_experience for b in exp.bullet_points
+            b
+            for exp in (optimized.optimized_work_experience or [])
+            for b in (exp.bullet_points or [])
         ]
 
         return [
