@@ -13,6 +13,7 @@ import numpy as np
 from loguru import logger
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
+from utils.safe import safe_list, safe_str
 
 from core.config import settings
 
@@ -58,15 +59,26 @@ class EmbeddingService:
     # Similarity
     # ─────────────────────────────────────────────
 
-    def similarity_score(self, text_a: str, text_b: str) -> float:
+    def similarity_score(self, text_a: str | None, text_b: str | None) -> float:
         """Cosine similarity between two texts. Returns 0–100."""
+        text_a = safe_str(text_a)
+        text_b = safe_str(text_b)
+        if not text_a or not text_b:
+            return 0.0
         emb_a = self.embed_text(text_a)
         emb_b = self.embed_text(text_b)
         score = cosine_similarity([emb_a], [emb_b])[0][0]
         return round(float(score) * 100, 2)
 
-    def batch_similarity(self, query: str, candidates: List[str]) -> List[float]:
+    def batch_similarity(self, query: str | None, candidates: List[str]) -> List[float]:
         """Compare a query against multiple candidates. Returns list of 0–100 scores."""
+        query = safe_str(query)
+        candidates = safe_list(candidates)
+        if not candidates:
+            return []
+        if not query:
+            return [0.0 for _ in candidates]
+
         query_emb = self.embed_text(query)
         candidate_embs = self.embed_batch(candidates)
         scores = cosine_similarity([query_emb], candidate_embs)[0]

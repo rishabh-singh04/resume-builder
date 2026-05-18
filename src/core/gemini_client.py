@@ -49,8 +49,10 @@ class GeminiClient:
         return schema.model_validate(parsed)
 
     @staticmethod
-    def _clean_json(text: str) -> str:
+    def _clean_json(text: str | None) -> str:
         """Strip markdown code fences from LLM JSON responses."""
+        if text is None:
+            return ""
         text = text.strip()
         if text.startswith("```json"):
             text = text[7:]
