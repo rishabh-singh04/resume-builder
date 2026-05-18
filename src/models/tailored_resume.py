@@ -40,14 +40,14 @@ class TailoredResume(BaseSchema):
     Final optimized resume — source of truth for PDF/TEX generation and preview UI.
     """
 
-    contact_info: ContactInfo
+    contact_info: Optional[ContactInfo] = None
     professional_summary: Optional[str] = None
-    skill_categories: List[SkillCategory] = Field(default_factory=list)
-    optimized_work_experience: List[WorkExperience] = Field(default_factory=list)
-    optimized_projects: List[ResumeProject] = Field(default_factory=list)
-    education: List[Education] = Field(default_factory=list)
-    certifications: List[Certification] = Field(default_factory=list)
-    optimized_bullets: List[OptimizedBullet] = Field(default_factory=list)
+    skill_categories: Optional[List[SkillCategory]] = Field(default_factory=list)
+    optimized_work_experience: Optional[List[WorkExperience]] = Field(default_factory=list)
+    optimized_projects: Optional[List[ResumeProject]] = Field(default_factory=list)
+    education: Optional[List[Education]] = Field(default_factory=list)
+    certifications: Optional[List[Certification]] = Field(default_factory=list)
+    optimized_bullets: Optional[List[OptimizedBullet]] = Field(default_factory=list)
     target_role: Optional[str] = None
     target_company: Optional[str] = None
     final_ats_score: Optional[float] = None

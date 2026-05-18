@@ -1,7 +1,7 @@
 """ATS scoring models."""
 
 from datetime import datetime, timezone
-from typing import List, Optional
+from typing import List, Literal, Optional
 
 from pydantic import Field
 
@@ -22,10 +22,17 @@ class WeakSection(BaseSchema):
 
 class ATSReport(BaseSchema):
     ats_score: float = Field(ge=0, le=100)
+    keyword_score: float = Field(ge=0, le=100)
     keyword_match_score: float = Field(ge=0, le=100)
     semantic_similarity_score: float = Field(ge=0, le=100)
     project_relevance_score: float = Field(ge=0, le=100)
     resume_quality_score: float = Field(ge=0, le=100)
+    experience_score: Optional[float] = Field(default=None, ge=0, le=100)
+    section_score: Optional[float] = Field(default=None, ge=0, le=100)
+    format_score: Optional[float] = Field(default=None, ge=0, le=100)
+    impact_score: Optional[float] = Field(default=None, ge=0, le=100)
+    score_reasoning: Optional[str] = None
+    scoring_method: Literal["llm", "fallback"]
     matched_keywords: List[str] = Field(default_factory=list)
     missing_keywords: List[ATSGap] = Field(default_factory=list)
     weak_sections: List[WeakSection] = Field(default_factory=list)

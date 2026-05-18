@@ -27,6 +27,11 @@ class EmploymentType(str, Enum):
     CONTRACT = "Contract"
     INTERNSHIP = "Internship"
     FREELANCE = "Freelance"
+    TRAINEE = "Trainee"
+    APPRENTICE = "Apprentice"
+    TEMPORARY = "Temporary"
+    VOLUNTEER = "Volunteer"
+    CONSULTANT = "Consultant"
 
 
 class ProjectType(str, Enum):
