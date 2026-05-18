@@ -5,44 +5,57 @@
 google-generativeai>=0.3.0
 
 # Data Validation & Models
-pydantic==2.5.0
-pydantic-settings==2.1.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+email-validator>=2.1.0
 
 # PDF Processing & Parsing
 pdfplumber==0.11.9
 
 # GitHub Integration
-PyGithub==2.1.1
+PyGithub>=2.1.1
 
 # HTTP Requests
-requests==2.31.0
+requests>=2.31.0
 
 # Template Rendering for LaTeX
-Jinja2==3.1.2
+Jinja2>=3.1.2
 
-# Web UI Framework
-streamlit==1.30.0
+# API Server & Web Framework
+fastapi>=0.109.0
+uvicorn[standard]>=0.25.0
+python-multipart>=0.0.6
+streamlit>=1.30.0
 
 # Async/Concurrent Operations
-aiohttp==3.9.0
+aiohttp>=3.9.0
 
 # Caching & Session Storage
-redis==5.0.0
+redis>=5.0.0
+
+
+# EMBEDDINGS & ML (IMPORTANT: See below)
+# NOTE: PyTorch (torch) on Windows requires Visual C++ Redistributable
+# Download: https://aka.ms/vs/17/release/vc_redist.x64.exe
+# Install CPU-only torch with: pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+sentence-transformers>=2.2.0
+numpy>=1.26.0
+scikit-learn>=1.3.0
 
 # Environment Variable Management
-python-dotenv==1.0.0
+python-dotenv>=1.0.0
 
 # Logging & Debugging
-loguru==0.7.2
+loguru>=0.7.2
 
 # Retry Logic & Rate Limiting
-tenacity==8.2.3
+tenacity>=8.2.3
 
 # Development & Testing Dependencies (Optional)
 # Uncomment to install dev tools
-# pytest==7.4.0
-# pytest-asyncio==0.21.0
-# pytest-cov==4.1.0
-# black==23.7.0
-# ruff==0.1.0
-# mypy==1.5.0
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+black>=23.7.0
+ruff>=0.1.0
+mypy>=1.5.0
