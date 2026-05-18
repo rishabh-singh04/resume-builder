@@ -17,7 +17,7 @@ RULES:
 
 REQUIRED OUTPUT FORMAT:
 {{
-    "resume_quality_score": 0-100,
+    "resume_quality_score": integer 0-100,
     "weak_sections": [
         {{"section_name": "...", "issue": "...", "recommendation": "..."}}
     ],
@@ -26,4 +26,44 @@ REQUIRED OUTPUT FORMAT:
 }}
 
 RESUME:
-{resume}"""
+{resume}
+"""
+
+ATS_SCORING_PROMPT = """You are an expert ATS scoring engine. Score this resume against the job description.
+
+TASK: Return ONLY valid JSON matching the schema below. Do not include markdown, notes, or explanation outside of JSON.
+
+OUTPUT SCHEMA:
+{
+    "keyword_score": integer 0-100,
+    "experience_score": integer 0-100,
+    "section_score": integer 0-100,
+    "format_score": integer 0-100,
+    "impact_score": integer 0-100,
+    "overall_score": integer 0-100,
+    "matched_keywords": ["..."],
+    "missing_keywords": ["..."],
+    "weak_sections": [
+        {"section_name": "...", "issue": "...", "recommendation": "..."}
+    ],
+    "recommendations": ["..."],
+    "optimization_priority": ["..."],
+    "score_reasoning": "..."
+}
+
+SCORING WEIGHTS:
+- keyword_score * 0.35
+- experience_score * 0.25
+- section_score * 0.20
+- format_score * 0.10
+- impact_score * 0.10
+
+GITHUB PROJECTS:
+{github_projects}
+
+JOB DESCRIPTION:
+{job_description}
+
+RESUME:
+{resume}
+"""

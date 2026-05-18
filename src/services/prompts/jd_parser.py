@@ -15,8 +15,8 @@ RULES:
 REQUIRED FIELDS:
 - role_title: string
 - company_name: string or null
-- seniority: one of [Intern, Junior, Mid-Level, Senior, Staff, Lead, Principal] or null
-- employment_type: one of [Full-Time, Part-Time, Contract, Internship, Freelance] or null
+- seniority: string or null
+- employment_type: string or null
 - location: string or null
 - remote_allowed: boolean
 - required_skills: list of strings
